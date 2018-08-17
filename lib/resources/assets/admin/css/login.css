@@ -1,0 +1,14 @@
+body{
+	background: #482368 !important;
+}
+.login-logo{
+	width: 200px;
+    margin: 20px auto;
+}
+.errorAlert{
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	z-index: 9999;
+}
