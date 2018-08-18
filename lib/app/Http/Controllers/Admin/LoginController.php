@@ -45,21 +45,24 @@ class LoginController extends Controller
         Session::flush();
         return back();
     }
-    public function getLockScreen(Request $request){
-        if ($request->username == null) {
-            $data['item'] = Account::first();
-            return view('admin.login.lockscreen' ,$data);
-        }
-        $data['item'] = Account::where('username', $request->username)->first();
-        if ($data['item'] == null) {
-            $data['item'] = Account::first();
-            return view('admin.login.lockscreen' ,$data);
-        }
-        return view('admin.login.lockscreen' ,$data);
-    }
+    // public function getLockScreen(Request $request){
+    //     if ($request->username == null) {
+    //         $data['item'] = Account::first();
+    //         return view('admin.login.lockscreen' ,$data);
+    //     }
+    //     $data['item'] = Account::where('username', $request->username)->first();
+    //     if ($data['item'] == null) {
+    //         $data['item'] = Account::first();
+    //         return view('admin.login.lockscreen' ,$data);
+    //     }
+    //     return view('admin.login.lockscreen' ,$data);
+    // }
 
-    public function postLockScreen(Request $request){
-        dd($request);
-    }
+    // public function postLockScreen(Request $request){
+    //     dd($request);
+    // }
+    public function getRegister(){
+        return view('client.login.register');
 
+    }
 }

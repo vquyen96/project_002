@@ -3,18 +3,60 @@
     content: '';
     top: 0;
     left: 0;
-    /* opacity: 0.4; */
     width: 100%;
     height: 100%;
-    background: #a900ff4a;
+    background: linear-gradient(to bottom, #592c7c , #592c7c67);
+    opacity: 0.6;
     z-index: 0;
 }
 .bounce.animated{
 	width: 25px;
     height: 45px;
     bottom: 50px;
-    left: 50%;
-    transform: translate(-50% , 0);
+    left: 49%;
+    transform: translateX(-50%) !important;
     position: absolute;
     z-index: 2;
+}
+.btnHomes{
+    display: flex;
+    width: 60%;
+    margin: auto;
+}
+a.btn_home{
+    flex: 1;
+    display: inline-block;
+    height: 56px;
+    line-height: 56px;
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none;
+    margin : 70px 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    padding: 0 25px;
+}
+.btn_register{
+    background: #592c7c;
+}
+.btn_login{
+    background: #FF9800;
+}
+
+.mouse{
+    margin: 0 auto !important;
+}
+.banner{
+    height: 100vh;
+}
+.header{
+    z-index: 1;
+}
+.carouselHome{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
 }

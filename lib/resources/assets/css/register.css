@@ -1,0 +1,91 @@
+::-webkit-scrollbar {
+    width: 6px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #999; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #666; 
+}
+
+
+.carousel-item:after{
+	content: '';
+	display: block;
+	padding-top: 100vh;
+}
+.carouselBG{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+}
+.opaBG{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	background: #861fdc;
+	opacity: 0.6;
+}
+.main{
+	width: 90%;
+    margin: auto;
+    max-width: 582px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.logo{
+	margin-bottom: 50px;
+    text-align: center;
+}
+.main h2{
+	color: #fff;
+	text-align: center;
+
+}
+.main p {
+	color: #fff;
+	text-align: center;
+}
+.mainForm{
+	width: 80%;
+	margin: auto;
+}
+.form_group{
+	margin-bottom: 20px;
+}
+.form_group label{
+	color: #fff;
+	font-size: 12px;
+}
+.form_group input[type=text]{
+	color: #aaa;
+}
+.form_group input[type=text]::-webkit-input-placeholder {
+  color: #aaa;
+}
+.form_group input[type=submit]{
+	background: #FF9800;
+	color: #fff;
+	height: 50px;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-top: 50px;
+	border: 0;
+	cursor: pointer;
+	width: 100%;
+}
+

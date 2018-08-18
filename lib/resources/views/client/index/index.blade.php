@@ -80,17 +80,19 @@ $(document).ready(function() {
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<h1><a  href="index.html">Net <span>Banking</span></a></h1>
+						<h1><a  href="{{ asset('') }}">
+							<img src="images/logo.png">
+						</a></h1>
 					</div>
 					<!--navbar-header-->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="index.html" class="active">Home</a></li>
-							<li><a href="#about" class="scroll">About</a></li>
-							<li><a href="#services" class="scroll">Services</a></li>
+							<li><a href="index.html" class="active">Trang chủ</a></li>
+							<li><a href="#about" class="scroll">Giới thiệu</a></li>
+							<li><a href="#services" class="scroll">Dịch vụ</a></li>
 							<li><a href="#blog" class="scroll">Blog</a></li>
-							<li><a href="#news" class="scroll">News</a></li>
-							<li><a href="#contact" class="scroll">Contact</a></li>
+							<li><a href="#news" class="scroll">Tin tức</a></li>
+							<li><a href="#contact" class="scroll">Liên hệ</a></li>
 						</ul>	
 						<div class="clearfix"> </div>	
 					</div>
@@ -106,14 +108,15 @@ $(document).ready(function() {
 							<ul class="rslides callbacks callbacks1" id="slider4">
 								<li>
 									<div class="agileits-banner-info">
-										<h3>Get reliable help with your credit card processing needs</h3>
-										<p>Donec tellus metus, ornare et mollis ut, maximus id nisi. Quisque scelerisque accumsan sem nec ullamcorper. Cras sed purus eget augue egestas commodo. Sed erat magna, pharetra aliquet mattis mollis, maximus eget lacus. </p>
-									</div>
-								</li>
-								<li>
-									<div class="agileits-banner-info">
-										<h3>Accept Credit Cards On Your Smartphone Today!</h3>
-										<p>Sed erat magna, pharetra aliquet mattis mollis, maximus eget lacus. Donec tellus metus, ornare et mollis ut, maximus id nisi. Quisque scelerisque accumsan sem nec ullamcorper. Cras sed purus eget augue egestas commodo. </p>
+										<h3>Đăng ký để nhận nhiều ưu đãi</h3>
+										<div class="btnHomes">
+											<a href="{{ asset('register') }}" class="btn_home btn_register">
+												Đăng ký
+											</a>
+											<a href="{{ asset('login') }}" class="btn_home btn_login">
+												Đăng nhập
+											</a>
+										</div>
 									</div>
 								</li>
 							</ul>
@@ -149,6 +152,19 @@ $(document).ready(function() {
 				<div class="mouse"></div>
 			</a>
 		</div>
+		{{-- <div id="carouselHome" class="carousel slide" data-ride="carousel">
+		  <div class="carousel-inner">
+		    <div class="carousel-item active">
+		      <img class="d-block w-100" src="images/Cho+vay+Thau+chi+sinh+vien_banner.jpg" alt="First slide">
+		    </div>
+		    <div class="carousel-item">
+		      <img class="d-block w-100" src="images/BannerWeb_visa.jpg" alt="Second slide">
+		    </div>
+		    <div class="carousel-item">
+		      <img class="d-block w-100" src="images/Banner-Cat-canh.jpg" alt="Third slide">
+		    </div>
+		  </div>
+		</div> --}}
 	</div>
 	<!-- //banner -->
 	<!-- welcome -->

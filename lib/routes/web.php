@@ -17,8 +17,10 @@ Route::group(['prefix' => 'login', 'middleware'=>'CheckLogout'], function(){
 });
 Route::get('logout', 'Admin\LoginController@logout');
 	
-
-
+Route::group(['prefix' => 'register', 'middleware'=>'CheckLogout'], function(){
+	Route::get('/', 'Admin\LoginController@getRegister');
+	Route::post('/', 'Admin\LoginController@postRegister');
+});
 
 
 
@@ -52,11 +54,15 @@ Route::group(['namespace' => 'Admin'], function (){
 
 	
 });
-Route::group(['namespace' => 'Client', 'middleware' => 'CheckClient'], function(){
+Route::group(['namespace' => 'Client'], function(){
 	Route::get('/', 'HomeController@getHome');
+
 	Route::get('deposit', 'TransactionController@getDeposit');
 	Route::post('deposit', 'TransactionController@postDeposit');
 
 	Route::get('deposit', 'TransactionController@getDeposit');
 	Route::get('deposit', 'TransactionController@getDeposit');
+
+
+
 });
