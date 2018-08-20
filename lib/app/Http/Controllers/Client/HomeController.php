@@ -10,4 +10,7 @@ class HomeController extends Controller
     public function getHome(){
     	return view('client.index.index');
     }
+    public function getTest(){
+    	return view('client.test');
+    }
 }

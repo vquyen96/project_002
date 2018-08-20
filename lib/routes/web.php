@@ -24,6 +24,7 @@ Route::group(['prefix' => 'register', 'middleware'=>'CheckLogout'], function(){
 
 
 
+
 Route::group(['namespace' => 'Admin'], function (){
 	Route::group(['prefix' => 'admin', 'middleware' => 'CheckLogin'], function (){
 		Route::get('/', 'HomeController@getHome');
@@ -64,5 +65,13 @@ Route::group(['namespace' => 'Client'], function(){
 	Route::get('deposit', 'TransactionController@getDeposit');
 
 
+	Route::get('test', 'HomeController@getTest');
 
+
+	Route::group(['prefix' =>'quick'], function(){
+		Route::post('deposit', 'QuickController@postDeposit');
+		Route::post('withdraw', 'QuickController@postWithdraw');
+		Route::post('tranfer', 'QuickController@postTranfer');
+
+	});
 });

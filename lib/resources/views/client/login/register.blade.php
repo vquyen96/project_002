@@ -3,7 +3,7 @@
 <head>
 	<title>Đăng ký</title>
 	<base href="{{ asset('lib/resources/assets/') }}/">
-
+	<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/register.css">
 </head>
@@ -48,34 +48,54 @@
 	<p><i>Quản lý tài chính an toàn, toàn diện hơn với tài khoản thanh toán, tiết kiệm và thẻ ATM (thẻ Debit). Dễ dàng rút tiền miễn phí tại hơn 16.000 ATM toàn quốc, truy cập vào sổ tiết kiệm, các khoản đầu tư, Mastercard và nhiều hơn thế..</i></p>
 	<div class="mainForm">
 		<form method="post">
+			{{ csrf_field() }}
+			<div class="form_group">
+			    <label>Tên đăng nhập</label>
+			    <div> 
+			    	<input type="text" class="form-control" name="acc[username]" placeholder="Không dấu và khoảng trăng, (Vd: honganh1999)">
+			    </div>
+			</div>
+			<div class="form_group">
+			    <label>Mật khẩu đăng nhập</label>
+			    <div> 
+			    	<input type="password" class="form-control" name="acc[password]" placeholder="Trên 8 kí tự">
+			    </div>
+			</div>
+			<div class="form_group">
+			    <label>Nhập lại mật khẩu</label>
+			    <div> 
+			    	<input type="password" class="form-control" name="acc[password]" placeholder="Trên 8 kí tự">
+			    </div>
+			</div>
 			<div class="form_group">
 			    <label>Họ tên bạn trên CMND</label>
 			    <div> 
-			    	<input type="text" class="form-control" name="acc['name']" placeholder="Không dấu, (Vd: Nguyen Van A)">
+			    	<input type="text" class="form-control" name="acc[fullname]" placeholder="Không dấu, (Vd: Nguyen Van A)">
 			    </div>
 			</div>
 			<div class="form_group">
 			    <label>Địa chỉ email</label>
 			    <div>
-			    	<input type="text" class="form-control" name="acc['email']" placeholder="(Vd: abc@mail.com)">
+			    	<input type="text" class="form-control" name="acc[email]" placeholder="(Vd: abc@mail.com)">
 			    </div>
 			</div>
 			<div class="form_group">
 			    <label>Số điện thoại di động</label>
 			    <div>
-			    	<input type="text" class="form-control" name="acc['phone']" placeholder="(Ví dụ: 0901234567)">
+			    	<input type="text" class="form-control" name="acc[phone]" placeholder="(Ví dụ: 0901234567)">
 			    </div>
 			</div>
 			<div class="form_group">
 			    <label>Ngày sinh</label>
 			    <div>
-			    	<input type="text" class="form-control" name="acc['name']" placeholder="(Vd: 18/01/1995)">
+			    	{{-- <input type="text" class="form-control" name="acc['name']" placeholder="(Vd: 18/01/1995)"> --}}
+			    	<input type="date" name="acc[birthday]" required value="{{isset($item)? $item->birthday : ''}}" min="1000-01-01" max="3000-12-31" class="form-control" placeholder="(Vd: 18/01/1995)">
 			    </div>
 			</div>
 			<div class="form_group">
 			    <label>Số CMND/Thẻ căn cước công dân</label>
 			    <div>
-			    	<input type="text" class="form-control" name="acc['name']" placeholder="(Vd: 021234567)">
+			    	<input type="text" class="form-control" name="acc[id_number]" placeholder="(Vd: 021234567)">
 			    </div>
 			</div>
 			<div class="form_group">

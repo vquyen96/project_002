@@ -63,6 +63,39 @@ class LoginController extends Controller
     // }
     public function getRegister(){
         return view('client.login.register');
-
     }
+    public function postRegister(Request $request){
+        $data = $request->acc;
+        // dd($data);
+        $data['level'] = 2;
+        $data['status'] = 1;
+        $data['account_number'] = $this->createAccountNumber();
+        $data['birthday'] = strtotime($data['birthday']);
+        $data['password'] = bcrypt($data['password']);
+        $data['level'] = 4;
+        isset($data['img']) ? $image = $data['img'] : '' ;
+        if (isset($data['img'])) {
+            $data['img'] = saveImage([$image], 200, 'avatar');
+        }
+        $acc = Account::create($data);
+
+        return back()->with('success','Thêm tài khoản thành công');
+        return view('client.login.register');
+    }
+
+    function createAccountNumber(){
+        $account_number = '';
+        $acc = 1;
+        while ($acc != null)  {
+            for($i = 0 ; $i < 4; $i++){
+                $ran = rand(1000,9999);
+                $account_number .= $ran;
+            }
+            $acc = Account::where('account_number', $account_number)->first();
+        }
+        return $account_number;
+
+            
+    }
+
 }
