@@ -26,15 +26,16 @@ class LoginController extends Controller
                     return redirect('admin')->with('succsess','Hello');
                     break;
                 case 3:
-                    return redirect('')->with('succsess','Hello');
+                    return redirect('user')->with('succsess','Hello');
                     break;
-                
                 default:
-                    Auth::logout();
+                    
+                    Session::flush();
                     return back();
                     break;
             }
-    		return redirect('admin');
+            Auth::logout();
+    		return back('');
     	}
     	else{
     		return back()->withInput()->with('error','Tài khoản khặc mật khẩu của bạn không đúng');
@@ -72,7 +73,7 @@ class LoginController extends Controller
         $data['account_number'] = $this->createAccountNumber();
         $data['birthday'] = strtotime($data['birthday']);
         $data['password'] = bcrypt($data['password']);
-        $data['level'] = 4;
+        $data['level'] = 3;
         isset($data['img']) ? $image = $data['img'] : '' ;
         if (isset($data['img'])) {
             $data['img'] = saveImage([$image], 200, 'avatar');
