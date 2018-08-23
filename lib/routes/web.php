@@ -80,14 +80,18 @@ Route::group(['namespace' => 'Client'], function(){
 		Route::post('check', 'UserController@getCheck');
 
 		Route::get('history', 'UserController@getHistory');
-		Route::get('deposit', 'UserController@getDeposit');
+		// Route::get('deposit', 'UserController@getDeposit');
 		Route::post('deposit', 'UserController@postDeposit');
-
-		Route::get('withdraw', 'UserController@getWithdraw');
-		Route::post('withdraw', 'UserController@postWithdraw');
+		Route::post('get_deposit', 'UserController@getDeposit');
+		Route::post('get_withdraw', 'UserController@getWithdraw');
+		Route::post('get_transfer', 'UserController@getTransfer');
+		// Route::get('withdraw', 'UserController@getWithdraw');
+		Route::post('withdraw', 'UserController@postWithDraw');
 
 		Route::get('transfer', 'UserController@getTransfer');
 		Route::post('transfer', 'UserController@postTransfer');
+
+		Route::post('detail', 'UserController@postDetail');
 
 
 	});

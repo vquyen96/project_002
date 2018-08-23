@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Đăng ký</title>
+	<title>{{ Auth::user()->fullname }}</title>
 	<base href="{{ asset('lib/resources/assets/') }}/">
 	<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/user.css">
 	<link rel="stylesheet" type="text/css" href="css/all.css">
@@ -11,6 +12,8 @@
 
 </head>
 <body>
+<div id="id_user">{{ Auth::user()->id }}</div>
+<div id="currentUrl">{{ asset('') }}</div>
 <div class="carouselBG">
 	<div id="carouselHome" class="carousel slide" data-ride="carousel">
 	  <div class="carousel-inner">
@@ -26,6 +29,9 @@
 	</div>
 </div>
 <div class="opaBG">
+</div>
+<div>
+	@include('errors.note')
 </div>
 @if(Auth::check())
 <div class="main">
@@ -231,6 +237,8 @@
 				</div>
 			</div>
 			<div class="bodyItem">
+				<form method="post" action="{{ asset('user/deposit') }}">
+				{{ csrf_field() }}
 				<div class="bodyItemAva">
                      <h2>Gửi tiền vào tài khoản</h2>
                      <div class="bodyItemAccNum">
@@ -246,7 +254,7 @@
 							Số tiền
 						</div>
 						<div class="bodyItemRight">
-							<input type="number" name="amount" class="form-control">
+							<input type="number" name="deposit[amount]" class="form-control">
 						</div>
 					</div>
 					<div class="bodyItemMainSmail">
@@ -254,77 +262,114 @@
 							Lời nhắn
 						</div>
 						<div class="bodyItemRight">
-							<textarea name="content" class="form-control" rows="5"></textarea>
+							<textarea name="deposit[messages]" class="form-control" rows="5"></textarea>
+						</div>
+						<div style="display: none;">
+							<input type="submit" name="" class="btn_form_deposit">
 						</div>
 					</div>
 				</div>
+				</form>
 				<div class="bodyItemBtn">
-					<button type="submit">Gửi</button>
+					<button type="buton" onclick="getDeposit()">Gửi</button>
 				</div>
+				
 			</div>
 			<div class="bodyItem">
-				<div class="bodyItemAva">
-                     <h2>Rút tiền</h2>
-                     <div class="bodyItemAccNum">
-                     	Stk: {{ $acc->account_number }}
-                     </div>
-                     <div class="bodyItemBlance">
-                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-                     </div>
-				</div>
-				<div class="bodyItemMain">
-					<div class="bodyItemMainSmail">
-						<div class="bodyItemLeft">
-							Số tiền
+				<form method="post" action="{{ asset('user/withdraw') }}">
+					{{ csrf_field() }}
+					<div class="bodyItemAva">
+	                     <h2>Rút tiền</h2>
+	                     <div class="bodyItemAccNum">
+	                     	Stk: {{ $acc->account_number }}
+	                     </div>
+	                     <div class="bodyItemBlance">
+	                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
+	                     </div>
+					</div>
+					<div class="bodyItemMain">
+						<div class="bodyItemMainSmail">
+							<div class="bodyItemLeft">
+								Số tiền
+							</div>
+							<div class="bodyItemRight">
+								<input type="number" name="withdraw[amount]" class="form-control">
+							</div>
 						</div>
-						<div class="bodyItemRight">
-							<input type="number" name="amount" class="form-control">
+						<div class="bodyItemMainSmail">
+							<div class="bodyItemLeft">
+								Lời nhắn
+							</div>
+							<div class="bodyItemRight">
+								<textarea name="withdraw[messages]" class="form-control" rows="5"></textarea>
+							</div>
+							<div style="display: none;">
+								<input type="submit" name="" class="btn_form_withdraw">
+							</div>
 						</div>
 					</div>
-					<div class="bodyItemMainSmail">
-						<div class="bodyItemLeft">
-							Lời nhắn
-						</div>
-						<div class="bodyItemRight">
-							<textarea name="content" class="form-control" rows="5"></textarea>
-						</div>
+					</form>
+					<div class="bodyItemBtn">
+						<button type="button" onclick="getWithdraw()">Rút</button>
 					</div>
-				</div>
-				<div class="bodyItemBtn">
-					<button type="submit">Gửi</button>
-				</div>
+				
+				
 			</div>
 			<div class="bodyItem">
-				<div class="bodyItemAva">
-                     <h2>Chuyển tiền</h2>
-                     <div class="bodyItemAccNum">
-                     	Stk: {{ $acc->account_number }}
-                     </div>
-                     <div class="bodyItemBlance">
-                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-                     </div>
-				</div>
-				<div class="bodyItemMain">
-					<div class="bodyItemMainSmail">
-						<div class="bodyItemLeft">
-							Số tiền
+				<form method="post" action="{{ asset('user/transfer') }}">
+					{{ csrf_field() }}
+					<div class="bodyItemAva">
+	                     <h2>Chuyển tiền</h2>
+	                     <div class="bodyItemAccNum">
+	                     	Stk: {{ $acc->account_number }}
+	                     </div>
+	                     <div class="bodyItemBlance">
+	                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
+	                     </div>
+					</div>
+					<div class="bodyItemMain">
+						<div class="bodyItemMainSmail">
+							<div class="bodyItemLeft">
+								Số tiền
+							</div>
+							<div class="bodyItemRight">
+								<input type="number" name="transfer[amount]" class="form-control">
+							</div>
 						</div>
-						<div class="bodyItemRight">
-							<input type="number" name="amount" class="form-control">
+						<div class="bodyItemMainSmail">
+							<div class="bodyItemLeft">
+								Tên người nhận
+							</div>
+							<div class="bodyItemRight">
+								<input type="text" name="transfer[fullname]" class="form-control">
+							</div>
+						</div>
+						<div class="bodyItemMainSmail">
+							<div class="bodyItemLeft">
+								Stk người nhận
+							</div>
+							<div class="bodyItemRight">
+								<input type="number" name="transfer[account_number]" class="form-control">
+							</div>
+						</div>
+						<div class="bodyItemMainSmail">
+							<div class="bodyItemLeft">
+								Lời nhắn
+							</div>
+							<div class="bodyItemRight">
+								<textarea name="transfer[messages]" class="form-control" rows="5"></textarea>
+							</div>
+							<div style="display: none;">
+								<input type="submit" name="" class="btn_form_transfer">
+							</div>
 						</div>
 					</div>
-					<div class="bodyItemMainSmail">
-						<div class="bodyItemLeft">
-							Lời nhắn
-						</div>
-						<div class="bodyItemRight">
-							<textarea name="content" class="form-control" rows="5"></textarea>
-						</div>
+				</form>
+					<div class="bodyItemBtn">
+						<button type="button" onclick="getTranfer()">Gửi</button>
 					</div>
-				</div>
-				<div class="bodyItemBtn">
-					<button type="submit">Gửi</button>
-				</div>
+				
+					
 			</div>
 			<div class="bodyItem">
 				<div class="bodyItemAva">
@@ -350,7 +395,7 @@
 							Lời nhắn
 						</div>
 						<div class="bodyItemRight">
-							<textarea name="content" class="form-control" rows="5"></textarea>
+							<textarea name="messages" class="form-control" rows="5"></textarea>
 						</div>
 					</div>
 				</div>
@@ -361,6 +406,27 @@
 		</div>
 			
 	</div>
+</div>
+
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Gửi tiền vào tài khoản</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{-- Content get by API --}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-warning" id="btnSubmit">Xác nhận</button>
+      </div>
+    </div>
+  </div>
 </div>
 @endif
 
