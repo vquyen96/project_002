@@ -104,6 +104,22 @@
 					</div>
 					<div class="bodyItemMainSmail">
 						<div class="bodyItemLeft">
+							Mật khẩu
+						</div>
+						<div class="bodyItemRight">
+							<div class="bodyItemRightText">
+								
+							</div>
+							<div class="bodyItemRightInput">
+								<input type="text" name="password" class="form-control" value="">
+							</div>
+							<div class="bodyItemRightBtn">
+								<i class="fas fa-edit"></i>
+							</div>
+						</div>
+					</div>
+					<div class="bodyItemMainSmail">
+						<div class="bodyItemLeft">
 							Email
 						</div>
 						<div class="bodyItemRight">
@@ -126,12 +142,12 @@
 							<div class="bodyItemRightText">
 								{{ $acc->account_number }}
 							</div>
-							<div class="bodyItemRightInput">
+							{{-- <div class="bodyItemRightInput">
 								<input type="text" name="account_number" class="form-control" value="{{ $acc->account_number }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 					<div class="bodyItemMainSmail">
@@ -382,26 +398,24 @@
                      </div>
 				</div>
 				<div class="bodyItemMain">
-					<div class="bodyItemMainSmail">
-						<div class="bodyItemLeft">
-							Số tiền
-						</div>
-						<div class="bodyItemRight">
-							<input type="number" name="amount" class="form-control">
-						</div>
-					</div>
-					<div class="bodyItemMainSmail">
-						<div class="bodyItemLeft">
-							Lời nhắn
-						</div>
-						<div class="bodyItemRight">
-							<textarea name="messages" class="form-control" rows="5"></textarea>
-						</div>
-					</div>
+					<table class="table table-hover">
+						<tr>
+							<th>Thời gian</th>
+							<th>Số tiền giao dịch</th>
+							<th>Nội Dung</th>
+						</tr>
+						@foreach($history as $item)
+						<tr>
+							
+							<td>{{ $item->created_at }}</td>
+							<td>{{ $item->type == 2 || $item->receiver_id != Auth::user()->id ? '-'.number_format($item->amount) : '+'.number_format($item->amount) }}</td>
+							<td>{{ $item->messages }}</td>
+							
+						</tr>
+						@endforeach
+					</table>
 				</div>
-				<div class="bodyItemBtn">
-					<button type="submit">Gửi</button>
-				</div>
+				
 			</div>
 		</div>
 			

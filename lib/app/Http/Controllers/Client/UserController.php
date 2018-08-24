@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Input;
 class UserController extends Controller
 {
     public function getHome(){
+
     	if (Auth::check()) {
     		$data['acc'] = Account::find(Auth::user()->id);
+            $data['history'] = Transaction::where('sender_id', $data['acc']->id)->orWhere('receiver_id', $data['acc']->id)->orderBy('created_at', 'desc')->take(10)->get();
+            // dd($data['history']);
 	    	return view('client.user.index', $data);
     	}
     	else{
@@ -30,7 +33,6 @@ class UserController extends Controller
     	$balance_before = $acc->balance;
     	$data['balance'] = $acc->balance + $request->deposit['amount'];
 
-    	
     	if(!$acc->update($data))$check = 0;
     	$balance_after = $acc->balance;
     	unset($data);
@@ -94,23 +96,36 @@ class UserController extends Controller
     	$check = 1;
     	$acc = Account::find(Auth::user()->id);
     	$balance_before = $acc->balance;
-    	$data['balance'] = $acc->balance - $request->withdraw['amount'];
+    	$data['balance'] = $acc->balance - $request->transfer['amount'];
+        $receiver = Account::where('fullname', $request->transfer['fullname'])->where('account_number', $request->transfer['account_number'])->first();
 
-    	
+        if(!$receiver) $check = 0;
+
+        $re_balance_before = $receiver->balance;
+
+    	$re['balance'] = $receiver->blance + $request->transfer['amount'];
+
     	if(!$acc->update($data))$check = 0;
     	$balance_after = $acc->balance;
+
+        if(!$receiver->update($re)) $check = 0;
+        $re_balance_after = $receiver->balance;
+
     	unset($data);
     	$data = [
-    		'amount' => $request->withdraw['amount'],
+    		'amount' => $request->transfer['amount'],
     		'sender_id' => $acc->id,
-    		'receiver_id' => $acc->id,
+    		'receiver_id' => $receiver->id,
     		'sender_balance_before' => $balance_before,
     		'sender_balance_after' => $balance_after,
-    		'messages' => $request->withdraw['messages'],
-    		'type' => 2,
+            'receiver_balance_before' => $re_balance_before,
+            'receiver_balance_after' => $re_balance_after,
+    		'messages' => $request->transfer['messages'],
+    		'type' => 3,
     		'status' => 1
     	];
-    	if ($balance_before - $balance_after != $request->withdraw['amount'] ) $check = 0;
+    	if ($balance_before - $balance_after != $request->transfer['amount'] ) $check = 0;
+        if ($re_balance_after - $re_balance_before != $request->transfer['amount'] ) $check = 0;
     	if(!Transaction::insert($data)) $check = 0;
     	if ($check == 1) {
     		DB::commit();
