@@ -37,7 +37,9 @@
 	</div>
 </div>
 <div class="opaBG">
-	
+</div>
+<div class="alert">
+	@include('errors.note')
 </div>
 <div class="main">
 	<div class="logo">
@@ -109,5 +111,6 @@
 
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/master.js"></script>
 </body>
 </html>

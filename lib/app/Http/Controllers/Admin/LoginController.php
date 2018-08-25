@@ -68,10 +68,24 @@ class LoginController extends Controller
     public function postRegister(Request $request){
         $data = $request->acc;
         // dd($data);
+        $accExist = Account::where('username', $data['username'])->first();
+        if ($accExist) {
+            return back()->with('error','Tên đăng nhập đã tồn tại');
+        }
+        $accExist = Account::where('email', $data['email'])->first();
+        if ($accExist) {
+            return back()->with('error','Email đã tồn tại');
+        }
+        $accExist = Account::where('id_number', $data['id_number'])->first();
+        if ($accExist) {
+            return back()->with('error','Số chứng minh đã tồn tại');
+        }
+        $data['fullname'] = strtoupper($data['fullname']);
         $data['level'] = 2;
         $data['status'] = 1;
         $data['account_number'] = $this->createAccountNumber();
         $data['birthday'] = strtotime($data['birthday']);
+        $password = $data['password'];
         $data['password'] = bcrypt($data['password']);
         $data['level'] = 3;
         isset($data['img']) ? $image = $data['img'] : '' ;
@@ -79,9 +93,18 @@ class LoginController extends Controller
             $data['img'] = saveImage([$image], 200, 'avatar');
         }
         $acc = Account::create($data);
-
-        return back()->with('success','Thêm tài khoản thành công');
-        return view('client.login.register');
+        if(!$acc){
+            return back()->with('error','Lỗi thêm tài khoản');
+        }
+        else{
+            $arr = ['username' => $acc->username, 'password' => $password];
+            if(Auth::attempt($arr, false)){
+                return redirect('user')->with('succsess','Chào mừng bạn đến với TPBank');
+            }
+            else{
+                return back()->withInput()->with('error','Sảy ra lỗi đăng nhập');
+            }  
+        }
     }
 
     function createAccountNumber(){

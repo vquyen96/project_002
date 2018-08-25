@@ -6,7 +6,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <base href="{{ asset('lib/resources/assets/admin') }}/">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <link rel="shortcut icon" href="../images/Layer 1.png" /> 
+  <link href="images/favicon.ico" rel="shortcut icon" type="../image/x-icon" /> 
   <title>TP Bank | @yield('title')</title>
 
   <link rel="stylesheet" type="text/css" href="../css/all.css">

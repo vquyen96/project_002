@@ -76,6 +76,7 @@ Route::group(['namespace' => 'Client'], function(){
 	});
 	Route::group(['prefix'=>'user'], function(){
 		Route::get('/', 'UserController@getHome');
+		Route::post('change', 'UserController@postChange');
 		Route::get('check', 'UserController@getCheck');
 		Route::post('check', 'UserController@getCheck');
 

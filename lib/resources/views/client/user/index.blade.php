@@ -30,7 +30,7 @@
 </div>
 <div class="opaBG">
 </div>
-<div>
+<div class="alert">
 	@include('errors.note')
 </div>
 @if(Auth::check())
@@ -48,9 +48,9 @@
 		<div class="navItem">
 			Tài khoản
 		</div>
-		<div class="navItem">
+		{{-- <div class="navItem">
 			Gửi tiền
-		</div>
+		</div> --}}
 		<div class="navItem">
 			Rút tiền
 		</div>
@@ -65,11 +65,14 @@
 	<div class="body">
 		<div class="bodyLine">
 			<div class="bodyItem">
+				<form method="post" enctype="multipart/form-data" action="{{ asset('user/change') }}">
+				{{ csrf_field() }}
 				<div class="bodyItemAva">
                       <input id="img" type="file" name="img" class="cssInput" onchange="changeImg(this)" style="display: none!important;">
                       <img style="cursor: pointer;" id="avatar" class="cssInput thumbnail imageForm" src="{{ asset('lib/storage/app/avatar/'.$acc->img)}}">
 				</div>
 				<div class="bodyItemMain">
+
 					<div class="bodyItemMainSmail">
 						<div class="bodyItemLeft">
 							Tên tài khoản
@@ -79,7 +82,7 @@
 								{{ $acc->fullname }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="fullname" class="form-control" value="{{ $acc->fullname }}">
+								<input type="text" name="acc[fullname]" class="form-control" value="{{ $acc->fullname }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -95,7 +98,7 @@
 								{{ $acc->username }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="username" class="form-control" value="{{ $acc->username }}">
+								<input type="text" name="acc[username]" class="form-control" value="{{ $acc->username }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -111,7 +114,7 @@
 								
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="password" class="form-control" value="">
+								<input type="text" name="acc[password]" class="form-control" value="">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -127,7 +130,7 @@
 								{{ $acc->email }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="email" class="form-control" value="{{ $acc->email }}">
+								<input type="text" name="acc[email]" class="form-control" value="{{ $acc->email }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -156,14 +159,14 @@
 						</div>
 						<div class="bodyItemRight">
 							<div class="bodyItemRightText">
-								{{ $acc->balance }}
+								{{ number_format($acc->balance,0,',','.') }}
 							</div>
-							<div class="bodyItemRightInput">
+							{{-- <div class="bodyItemRightInput">
 								<input type="text" name="balance" class="form-control" value="{{ $acc->balance }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 					<div class="bodyItemMainSmail">
@@ -175,7 +178,7 @@
 								{{ $acc->id_number }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="id_number" class="form-control" value="{{ $acc->id_number }}">
+								<input type="text" name="acc[id_number]" class="form-control" value="{{ $acc->id_number }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -191,7 +194,7 @@
 								{{ $acc->phone }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="phone" class="form-control" value="{{ $acc->phone }}">
+								<input type="text" name="acc[phone]" class="form-control" value="{{ $acc->phone }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -207,7 +210,7 @@
 								{{ $acc->address }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="address" class="form-control" value="{{ $acc->address }}">
+								<input type="text" name="acc[address]" class="form-control" value="{{ $acc->address }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -223,7 +226,7 @@
 								{{ $acc->birthday }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="birthday" class="form-control" value="{{ $acc->birthday }}">
+								<input type="text" name="acc[birthday]" class="form-control" value="{{ $acc->birthday }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -239,7 +242,7 @@
 								{{ $acc->gender }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="gender" class="form-control" value="{{ $acc->gender }}">
+								<input type="text" name="acc[gender]" class="form-control" value="{{ $acc->gender }}">
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -251,8 +254,10 @@
 				<div class="bodyItemBtn">
 					<button type="submit">Thay đổi</button>
 				</div>
+				</form>
+				
 			</div>
-			<div class="bodyItem">
+			{{-- <div class="bodyItem">
 				<form method="post" action="{{ asset('user/deposit') }}">
 				{{ csrf_field() }}
 				<div class="bodyItemAva">
@@ -290,20 +295,64 @@
 					<button type="buton" onclick="getDeposit()">Gửi</button>
 				</div>
 				
-			</div>
+			</div> --}}
 			<div class="bodyItem">
 				<form method="post" action="{{ asset('user/withdraw') }}">
 					{{ csrf_field() }}
 					<div class="bodyItemAva">
 	                     <h2>Rút tiền</h2>
-	                     <div class="bodyItemAccNum">
+	                     {{-- <div class="bodyItemAccNum">
 	                     	Stk: {{ $acc->account_number }}
 	                     </div>
 	                     <div class="bodyItemBlance">
 	                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-	                     </div>
+	                     </div> --}}
 					</div>
 					<div class="bodyItemMain">
+						<div class="bodyItemMainSmail">
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="50000">
+								50.000
+							</div>
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="100000">
+								100.000
+							</div>
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="200000">
+								200.000
+							</div>
+						</div>
+						<div class="bodyItemMainSmail">
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="500000">
+								500.000
+							</div>
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="1000000">
+								1.000.000
+							</div>
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="2000000">
+								2.000.000
+							</div>
+						</div>
+						<div class="bodyItemMainSmail">
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="5000000">
+								5.000.000
+							</div>
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="10000000">
+								10.000.000
+							</div>
+							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="20000000">
+								20.000.000
+							</div>
+
+						</div>
+
+						<div class="bodyItemAva">
+		                     <h2>Số tiền khác</h2>
+		                     {{-- <div class="bodyItemAccNum">
+		                     	Stk: {{ $acc->account_number }}
+		                     </div>
+		                     <div class="bodyItemBlance">
+		                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
+		                     </div> --}}
+						</div>
 						<div class="bodyItemMainSmail">
 							<div class="bodyItemLeft">
 								Số tiền
@@ -336,12 +385,12 @@
 					{{ csrf_field() }}
 					<div class="bodyItemAva">
 	                     <h2>Chuyển tiền</h2>
-	                     <div class="bodyItemAccNum">
+	                     {{-- <div class="bodyItemAccNum">
 	                     	Stk: {{ $acc->account_number }}
 	                     </div>
 	                     <div class="bodyItemBlance">
 	                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-	                     </div>
+	                     </div> --}}
 					</div>
 					<div class="bodyItemMain">
 						<div class="bodyItemMainSmail">
@@ -390,24 +439,54 @@
 			<div class="bodyItem">
 				<div class="bodyItemAva">
                      <h2>Lịch sử giao dịch</h2>
-                     <div class="bodyItemAccNum">
+                     {{-- <div class="bodyItemAccNum">
                      	Stk: {{ $acc->account_number }}
                      </div>
                      <div class="bodyItemBlance">
                      	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-                     </div>
+                     </div> --}}
 				</div>
-				<div class="bodyItemMain">
+				<div class="bodyItemMain history">
 					<table class="table table-hover">
 						<tr>
 							<th>Thời gian</th>
-							<th>Số tiền giao dịch</th>
+							<th style="white-space: nowrap;">Hành động</th>
+							<th>Số tiền</th>
 							<th>Nội Dung</th>
 						</tr>
 						@foreach($history as $item)
 						<tr>
 							
-							<td>{{ $item->created_at }}</td>
+							<td style="white-space: nowrap;">{{ $item->created_at }}</td>
+							<td style="white-space: nowrap;">
+								@switch($item->type)
+									@case(1)
+										<div class="tagHistory">
+											Nạp tiền
+										</div>
+										@break
+									@case(2)
+										<div class="tagHistory">
+											Rút tiền
+										</div>
+										@break
+									@case(3)
+										@if($item->receiver_id != Auth::user()->id)
+											<div class="tagHistory">
+												Chuyển đi
+											</div>
+										@else
+											<div class="tagHistory">
+												Nhận vào
+											</div>
+										@endif
+										@break
+									
+								@endswitch
+								<div class="tagHistory">
+									
+								</div>
+							</td>
 							<td>{{ $item->type == 2 || $item->receiver_id != Auth::user()->id ? '-'.number_format($item->amount) : '+'.number_format($item->amount) }}</td>
 							<td>{{ $item->messages }}</td>
 							
@@ -448,5 +527,6 @@
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/master.js"></script>
 </body>
 </html>

@@ -18,12 +18,39 @@ class UserController extends Controller
     	if (Auth::check()) {
     		$data['acc'] = Account::find(Auth::user()->id);
             $data['history'] = Transaction::where('sender_id', $data['acc']->id)->orWhere('receiver_id', $data['acc']->id)->orderBy('created_at', 'desc')->take(10)->get();
+            foreach($data['history'] as $item){
+                if ($item->type == 3 && $item->receiver_id == Auth::user()->id) {
+                    $item->messages = $item->sender->fullname.' gửi vào: '.$item->messages;
+                }
+                if ($item->type == 3 && $item->receiver_id != Auth::user()->id) {
+                    $item->messages = 'Gửi cho '.$item->receiver->fullname.': '.$item->messages;
+                }
+                
+            }
             // dd($data['history']);
 	    	return view('client.user.index', $data);
     	}
     	else{
     		return redirect('');
 	    }	
+    }
+
+    public function postChange(Request $request ){
+        $acc = Account::find(Auth::user()->id);
+        $data = $request->acc;
+        if ($data['password'] == null) {
+            unset($data['password']);
+        }
+        else{
+            $data['password'] = bcrypt($data['password']);
+        }
+        $image = $request->file('img');
+        if ($request->hasFile('img')) {
+            $data['img'] = saveImage([$image], 100, 'avatar');
+        }
+        // dd($request );
+        if(!$acc->update($data)) return back()->with('error', 'Lỗi Sửa tài khoản');
+        return back()->with('success', 'Cập nhật thnahf công');
     }
     public function postDeposit(Request $request ){
     	$req = $request->deposit;
@@ -42,9 +69,10 @@ class UserController extends Controller
     		'receiver_id' => $acc->id,
     		'sender_balance_before' => $balance_before,
     		'sender_balance_after' => $balance_after,
-    		'messages' => $request->deposit['messages'],
+    		'messages' => 'Nạp tiền :'.$request->deposit['messages'],
     		'type' => 1,
-    		'status' => 1
+    		'status' => 1,
+            'created_at' => time()
     	];
     	if ($balance_after - $balance_before != $request->deposit['amount'] ) $check = 0;
     	if(!Transaction::insert($data)) $check = 0;
@@ -76,9 +104,10 @@ class UserController extends Controller
     		'receiver_id' => $acc->id,
     		'sender_balance_before' => $balance_before,
     		'sender_balance_after' => $balance_after,
-    		'messages' => $request->withdraw['messages'],
+    		'messages' => 'Rút tiền :'.$request->withdraw['messages'],
     		'type' => 2,
-    		'status' => 1
+    		'status' => 1,
+            'created_at' => time()
     	];
     	if ($balance_before - $balance_after != $request->withdraw['amount'] ) $check = 0;
     	if(!Transaction::insert($data)) $check = 0;
@@ -97,19 +126,20 @@ class UserController extends Controller
     	$acc = Account::find(Auth::user()->id);
     	$balance_before = $acc->balance;
     	$data['balance'] = $acc->balance - $request->transfer['amount'];
-        $receiver = Account::where('fullname', $request->transfer['fullname'])->where('account_number', $request->transfer['account_number'])->first();
+        $receiver = Account::where('fullname', strtoupper($request->transfer['fullname']))->where('account_number', $request->transfer['account_number'])->first();
 
         if(!$receiver) $check = 0;
 
         $re_balance_before = $receiver->balance;
 
-    	$re['balance'] = $receiver->blance + $request->transfer['amount'];
+    	$re['balance'] = $re_balance_before + $request->transfer['amount'];
 
     	if(!$acc->update($data))$check = 0;
     	$balance_after = $acc->balance;
 
-        if(!$receiver->update($re)) $check = 0;
-        $re_balance_after = $receiver->balance;
+        if(!$receiver->update($re)) {$check = 0;}
+        else{ $re_balance_after = $receiver->balance;}
+       
 
     	unset($data);
     	$data = [
@@ -122,10 +152,11 @@ class UserController extends Controller
             'receiver_balance_after' => $re_balance_after,
     		'messages' => $request->transfer['messages'],
     		'type' => 3,
-    		'status' => 1
+    		'status' => 1,
+            'created_at' => time()
     	];
     	if ($balance_before - $balance_after != $request->transfer['amount'] ) $check = 0;
-        if ($re_balance_after - $re_balance_before != $request->transfer['amount'] ) $check = 0;
+        // if ($re_balance_after - $re_balance_before != $request->transfer['amount'] ) $check = 0;
     	if(!Transaction::insert($data)) $check = 0;
     	if ($check == 1) {
     		DB::commit();
@@ -164,7 +195,7 @@ class UserController extends Controller
         $id = Input::get('id');
         $data['amount'] = Input::get('amount');
         $data['receiver_accountnumber'] = Input::get('accountnumber_receiver');
-        $data['receiver_fullname'] = Input::get('fullname_receiver');
+        $data['receiver_fullname'] = strtoupper(Input::get('fullname_receiver'));
         $data['messages'] = Input::get('messages');
 
         $receiver = Account::where('account_number', $data['receiver_accountnumber']);

@@ -2,7 +2,7 @@
   <tbody>
     <tr>
       <td><span>Số dư trước khi chuyển tiền</span></td>
-      <td class="deposit_balance">{{ $acc->balance }}</td>
+      <td class="deposit_balance">{{ number_format($acc->balance,0,',','.') }}</td>
     </tr>
     <tr>
       <td><span>Đến tài khoản</span></td>
