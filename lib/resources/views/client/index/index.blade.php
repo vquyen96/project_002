@@ -109,6 +109,17 @@ $(document).ready(function() {
 						<div class="callbacks_container">
 							<ul class="rslides callbacks callbacks1" id="slider4">
 								<li>
+									@if(Auth::check())
+									<div class="agileits-banner-info">
+										<h3>{{ Auth::user()->fullname }}</h3>
+										<div class="btnHomes">
+											<a href="{{ asset('user') }}" class="btn_home btn_login">
+												Tới trang cá nhân
+											</a>
+										</div>
+									</div>
+
+									@else
 									<div class="agileits-banner-info">
 										<h3>Đăng ký để nhận nhiều ưu đãi</h3>
 										<div class="btnHomes">
@@ -120,6 +131,7 @@ $(document).ready(function() {
 											</a>
 										</div>
 									</div>
+									@endif
 								</li>
 							</ul>
 						</div>
@@ -576,26 +588,7 @@ TẶNG 100% PHÍ CHUYỂN TIỀN LẦN ĐẦU, CƠ HỘI TRÚNG NGAY MACBOOK CHO
 		</div>
 	</div>
 	<!-- //feedback -->
-	<!-- subscribe -->
-	<div class="wthree-subscribe">
-		<div class="container">
-			<div class="w3-welcome-heading">
-				<h3>Bản tin</h3>
-			</div>
-			<div class="w3-agileits-subscribe-form">
-				<form action="#" method="post">
-					<input type="text" placeholder="Subscribe" name="Subscribe" required="">
-					<button class="btn1">Subscribe</button>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- //subscribe -->
-	<!-- map -->
-	<div class="map-grid">
-		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1859251.8642025779!2d-76.08274894689792!3d40.06224332601239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c0fb959e00409f%3A0x2cd27b07f83f6d8d!2sNew+Jersey%2C+USA!5e0!3m2!1sen!2sin!4v1474436926209" style="border:0" allowfullscreen></iframe>
-	</div>
-	<!-- //map -->
+	
 	<!-- contact -->
 	<div class="contact" id="contact">
 		<div class="container">

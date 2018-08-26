@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="css/header.css">
-<nav class="main-header navbar navbar-expand navbar-light border-bottom bg-danger">
+<nav class="main-header navbar navbar-expand navbar-light border-bottom bg-primary">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">

@@ -31,7 +31,7 @@
                     <a href="{{ asset('admin') }}" class="nav-link @if (Request::segment(2) == '') active @endif">
                         <i class="nav-icon fa fa-dashboard"></i>
                         <p>
-                            Thống kê
+                            Xin chào
                         </p>
                     </a>
                 </li>
@@ -85,7 +85,14 @@
 
                     </ul>
                 </li>
-                
+                <li class="nav-item has-treeview">
+                    <a href="{{ asset('admin/deposit') }}" class="nav-link @if (Request::segment(2) == 'deposit') active @endif">
+                        <i class="nav-icon fas fa-hand-holding-usd"></i>
+                        <p>
+                            Nộp tiền
+                        </p>
+                    </a>
+                </li>
 
                 <li class="nav-item has-treeview">
                     <a href="{{ asset('logout') }}" class="nav-link">

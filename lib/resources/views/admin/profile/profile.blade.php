@@ -25,7 +25,7 @@
         <div class="col-md-4">
 
           <!-- Profile Image -->
-          <div class="card card-danger card-outline">
+          <div class="card card-primary card-outline">
             <div class="card-body box-profile">
               <div class="text-center">
                 <div class="avatarImg100 profile-user-img" style="background: url('{{ isset($item->img) && file_exists(storage_path('app/avatar/'.$item->img)) && $item->img ? asset('lib/storage/app/avatar/'.$item->img) : '../images/images.png' }}') no-repeat center /cover;"></div>
@@ -53,13 +53,13 @@
                 </li>
               </ul>
 
-              <a href="{{ asset('admin/profile/change_pass') }}" class="btn btn-danger btn-block"><b>Thay đổi mật khẩu</b></a>
+              <a href="{{ asset('admin/profile/change_pass') }}" class="btn btn-primary btn-block"><b>Thay đổi mật khẩu</b></a>
             </div>
             <!-- /.card-body -->
           </div>
         </div>
         <div class="col-md-8">
-          <div class="card card-danger">
+          <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title">Chỉnh sửa hồ sơ</h3>
             </div>

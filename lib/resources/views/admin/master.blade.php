@@ -6,14 +6,12 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <base href="{{ asset('lib/resources/assets/admin') }}/">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <link href="images/favicon.ico" rel="shortcut icon" type="../image/x-icon" /> 
+  <link href="../images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <title>TP Bank | @yield('title')</title>
 
   <link rel="stylesheet" type="text/css" href="../css/all.css">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
-
-  <link rel="stylesheet" href="plugins/select2/select2.min.css">
 
   <link rel="stylesheet" href="plugins/timepicker/bootstrap-timepicker.min.css">
 
@@ -57,22 +55,17 @@
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="dist/js/adminlte.js"></script>
-  <script src="js/uploadImage.js"></script>
-  <script src="js/jquery.validate.min.js"></script>
 
   <!-- bootstrap time picker -->
   <script src="plugins/timepicker/bootstrap-timepicker.min.js"></script>
 
   <!-- Select2 -->
-  <script src="plugins/select2/select2.full.min.js"></script>
-
   {{--<script src="dist/js/pages/dashboard.js"></script>--}}
 
   <script src="dist/js/adminlte.js"></script>
 
   <script src="plugins/bootstrap/js/bootstrap.js"></script>
 
-  <script src="js/custom.js"></script>
   <script src="dist/js/adminlte.js"></script>
 
 
@@ -87,7 +80,7 @@
 
     $(function () {
         //Initialize Select2 Elements
-        $('.select2').select2();
+        
 
         $('.timepicker').timepicker({
           showInputs: false

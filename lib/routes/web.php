@@ -51,6 +51,12 @@ Route::group(['namespace' => 'Admin'], function (){
             Route::post('change_pass', 'ProfileController@postChangePass');
 
         });
+        Route::get('history/{id}', 'AccountController@getHistory');
+
+        Route::group(['prefix' => 'deposit'], function(){
+        	Route::get('/', 'DepositController@getDeposit');
+        	Route::post('/' ,'DepositController@postDeposit');
+        });
 	});
 
 	

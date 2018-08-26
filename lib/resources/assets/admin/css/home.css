@@ -1,0 +1,27 @@
+.content-wrapper{
+	position: relative;
+	overflow: hidden;
+	z-index: 0;
+}
+.carousel-item:after{
+	content: '';
+	display: block;
+	padding-top: 100vh;
+}
+.carouselBG{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 0;
+}
+.opaBG{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #861fdc;
+	opacity: 0.4;
+}

@@ -8,7 +8,7 @@ use App\Http\Requests\AccountAddRequest;
 use App\Http\Requests\AccountEditRequest;
 
 use App\Models\Account;
-
+use App\Models\Transaction;
 use File;
 use Auth;
 use DB;
@@ -79,6 +79,49 @@ class AccountController extends Controller
         $acc->delete();
         return back()->with('success', 'Xóa tài khoản thành công');
     }
+
+
+    public function getHistory(Request $request, $id){
+        $data = $request->all();
+        $from = strtotime(date('Y-m-1 0:0'));
+        $to = time();
+
+        if (isset($data['from']) && isset($data['to'])){
+            $from = strtotime($data['from']."00:00");
+            $to = strtotime($data['to']."23:59");
+        }
+        $acc = Account::find($id);
+        $acc->birthday = date('d/m/Y',$acc->birthday);
+        $history = Transaction::where(function ($query) use ($acc){
+            $query->where('sender_id', $acc->id)
+                  ->orWhere('receiver_id', $acc->id);
+        })->where('created_at','>=',$from)->where('created_at','<=',$to)->orderBy('created_at', 'desc')->get();
+
+        foreach($history as $item){
+            if ($item->type == 3 && $item->receiver_id == $id) {
+                $item->messages = $item->sender->fullname.' gửi vào: '.$item->messages;
+            }
+            if ($item->type == 3 && $item->receiver_id != $id) {
+                $item->messages = 'Gửi cho '.$item->receiver->fullname.': '.$item->messages;
+            }
+            
+        }
+
+        $data = [
+            'acc' => $acc,
+            'history' => $history,
+            'from' => date('d/m/Y',$from),
+            'to' => date('d/m/Y',$to),
+        ];
+
+
+        // dd($data['history']);
+        return view('admin.history.index', $data);
+    }
+
+
+
+
     function createAccountNumber(){
         $account_number = '';
         $acc = 1;

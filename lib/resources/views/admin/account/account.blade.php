@@ -39,9 +39,9 @@
                 <thead>
                 <tr>
                   <th class="hideResponsive768">Hình ảnh</th>
-                  <th>Tên đăng nhập</th>
                   <th class="hideResponsive768">Họ tên</th>
                   <th class="hideResponsive768">Email</th>
+                  <th>Số dư</th>
                   <th>Chức vụ</th>
                   <th>Tùy chọn</th>
                 </tr>
@@ -56,16 +56,16 @@
 	                  	
 
 	                  </td>
-	                  <td>
-	                  	{{$item->username}}
-	                  </td>
+	                 
 	                  <td class="hideResponsive768">{{$item->fullname}}</td>
 	                  <td class="hideResponsive768">{{$item->email}}</td>
+                    <td>{{ number_format($item->balance, 0, ',', '.') }} VND</td>
 	                  <td>{{level_format($item->level)}}</td>
 	                  <td>
 	                  	@if(true)
                         <a href="{{ asset('admin/account/edit/'.$item->id) }}" class="btn btn-primary">Sửa</a>
-                        <a href="{{ asset('admin/account/delete/'.$item->id) }}" onclick="return confirm('Bạn chắc chắn muốn xóa')" class="btn btn-danger"> Xóa</a>
+                        {{-- <a href="{{ asset('admin/account/delete/'.$item->id) }}" onclick="return confirm('Bạn chắc chắn muốn xóa')" class="btn btn-danger"> Xóa</a> --}}
+                        <a href="{{ asset('admin/history/'.$item->id) }}" class="btn btn-info">Lịch sử</a>
                       @endif
 	                  	{{-- @if (Auth::user()->id == $item->id)
 	                  		<a href="{{ asset('admin/account/delete/'.$item->id) }}" onclick="alert('Bạn không được xóa chính mình'); return false;" class="btn btn-danger"> Xóa</a>
