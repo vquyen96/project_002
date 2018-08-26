@@ -8,6 +8,9 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/user.css">
 	<link rel="stylesheet" type="text/css" href="css/all.css">
+	<link rel="stylesheet" href="admin/plugins/timepicker/bootstrap-timepicker.min.css">
+
+  	<link rel="stylesheet" href="admin/plugins/daterangepicker/daterangepicker-bs3.css">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
 
 </head>
@@ -33,16 +36,23 @@
 <div class="alert">
 	@include('errors.note')
 </div>
+@if(Session::has('amount'))
+<div class="alertSuccess">
+	@include('client.user.alert')
+</div>
+@endif
 @if(Auth::check())
 <div class="main">
 	<div class="header">
 		<div class="headerAva thumbnail" style="background: url('{{ asset('lib/storage/app/avatar/'.Auth::user()->img) }}') no-repeat center /cover"></div>
 		<div class="headerName">
 			<div class="headerNameMain">
-				{{ Auth::user()->fullname }}
+				{{ Auth::user()->fullname }} <span>({{ number_format(Auth::user()->balance, 0, ',', '.') }} VND)</span>
 			</div>
-			
 		</div>
+		<a href="{{ asset('logout') }}" class="headerLogout">
+			<i class="fas fa-sign-out-alt"></i>
+		</a>
 	</div> 
 	<div class="nav">
 		<div class="navItem">
@@ -159,7 +169,7 @@
 						</div>
 						<div class="bodyItemRight">
 							<div class="bodyItemRightText">
-								{{ number_format($acc->balance,0,',','.') }}
+								{{ number_format($acc->balance,0,',','.') }} VND
 							</div>
 							{{-- <div class="bodyItemRightInput">
 								<input type="text" name="balance" class="form-control" value="{{ $acc->balance }}">
@@ -239,10 +249,15 @@
 						</div>
 						<div class="bodyItemRight">
 							<div class="bodyItemRightText">
-								{{ $acc->gender }}
+								{{ gender_format($acc->gender) }}
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="acc[gender]" class="form-control" value="{{ $acc->gender }}">
+								<select name="acc[gender]" class="form-control">
+									<option value="1" {{  $acc->gender == 1 ? 'selected' : '' }}>Nam</option>
+									<option value="2" {{  $acc->gender == 2 ? 'selected' : '' }}>Nữ</option>
+									<option value="3" {{  $acc->gender == 3 ? 'selected' : '' }}>Khác</option>
+								</select>
+								{{-- <input type="text" name="acc[gender]" class="form-control" value="{{ $acc->gender }}"> --}}
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
@@ -299,15 +314,7 @@
 			<div class="bodyItem">
 				<form method="post" action="{{ asset('user/withdraw') }}">
 					{{ csrf_field() }}
-					<div class="bodyItemAva">
-	                     <h2>Rút tiền</h2>
-	                     {{-- <div class="bodyItemAccNum">
-	                     	Stk: {{ $acc->account_number }}
-	                     </div>
-	                     <div class="bodyItemBlance">
-	                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-	                     </div> --}}
-					</div>
+					
 					<div class="bodyItemMain">
 						<div class="bodyItemMainSmail">
 							<div class="btnWithDrawQuick btn btn-outline-success  btn-sm" value="50000">
@@ -383,15 +390,7 @@
 			<div class="bodyItem">
 				<form method="post" action="{{ asset('user/transfer') }}">
 					{{ csrf_field() }}
-					<div class="bodyItemAva">
-	                     <h2>Chuyển tiền</h2>
-	                     {{-- <div class="bodyItemAccNum">
-	                     	Stk: {{ $acc->account_number }}
-	                     </div>
-	                     <div class="bodyItemBlance">
-	                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-	                     </div> --}}
-					</div>
+					
 					<div class="bodyItemMain">
 						<div class="bodyItemMainSmail">
 							<div class="bodyItemLeft">
@@ -437,16 +436,19 @@
 					
 			</div>
 			<div class="bodyItem">
-				<div class="bodyItemAva">
-                     <h2>Lịch sử giao dịch</h2>
-                     {{-- <div class="bodyItemAccNum">
-                     	Stk: {{ $acc->account_number }}
-                     </div>
-                     <div class="bodyItemBlance">
-                     	Số dư: {{ number_format($acc->balance, 0,',','.') }}
-                     </div> --}}
-				</div>
+				
+					
 				<div class="bodyItemMain history">
+					<form action="{{ asset('user') }}" method="get" id="search">
+					<div><b>Thời gian thống kê: {{$from}} <span class="text-warning">đến</span> {{$to}}</b></div>
+	                <div class="ml-3">
+	                    <button type="button" class="btn btn-default pull-right"
+	                            id="daterange-btn"><span><i class="fa fa-calendar"></i></span>
+	                    </button>
+	                    <input id="from" name="from" class="d-none">
+	                    <input id="to" name="to" class="d-none">
+	                </div>
+	            	</form>
 					<table class="table table-hover">
 						<tr>
 							<th>Thời gian</th>
@@ -526,7 +528,73 @@
 
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<script src="admin/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script src="admin/plugins/daterangepicker/daterangepicker.js"></script>
+
 <script type="text/javascript" src="js/user.js"></script>
 <script type="text/javascript" src="js/master.js"></script>
+<script>
+    console.log('Hello Human',moment());
+    $('#daterange-btn').daterangepicker(
+        {
+            opens: "right",
+            /*autoApply: true,*/
+            locale: {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Chọn",
+                "cancelLabel": "Hủy",
+                "fromLabel": "Từ",
+                "toLabel": "Đến",
+                "customRangeLabel": "Tùy chọn",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "CN",
+                    "T2",
+                    "T3",
+                    "T4",
+                    "T5",
+                    "T6",
+                    "T7"
+                ],
+                "monthNames": [
+                    "Tháng 1",
+                    "Tháng 2",
+                    "Tháng 3",
+                    "Tháng 4",
+                    "Tháng 5",
+                    "Tháng 6",
+                    "Tháng 7",
+                    "Tháng 8",
+                    "Tháng 9",
+                    "Tháng 10",
+                    "Tháng 11",
+                    "Tháng 12"
+                ],
+                "firstDay": 1
+            },
+            ranges   : {
+                'Hôm nay'       : [moment(), moment()],
+                'Hôm qua'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 ngày trước' : [moment().subtract(6, 'days'), moment()],
+                '30 ngày trước': [moment().subtract(29, 'days'), moment()],
+                'Tháng này'  : [moment().startOf('month'), moment().endOf('month')],
+                'Tháng trước'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            startDate: moment(),
+            endDate  : moment()
+        },
+        function (start, end) {
+            $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        }
+    );
+    $('#daterange-btn').on('apply.daterangepicker', function(ev, picker) {
+        $('#from').val(picker.startDate.format('YYYY-MM-DD'));
+        $('#to').val(picker.endDate.format('YYYY-MM-DD'));
+        $('#search').submit();
+    });
+
+</script>
 </body>
 </html>

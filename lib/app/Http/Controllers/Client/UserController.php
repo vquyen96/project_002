@@ -13,12 +13,25 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 class UserController extends Controller
 {
-    public function getHome(){
+    public function getHome(Request $request){
 
     	if (Auth::check()) {
-    		$data['acc'] = Account::find(Auth::user()->id);
-            $data['history'] = Transaction::where('sender_id', $data['acc']->id)->orWhere('receiver_id', $data['acc']->id)->orderBy('created_at', 'desc')->take(10)->get();
-            foreach($data['history'] as $item){
+    		$data = $request->all();
+            $from = strtotime(date('Y-m-1 0:0'));
+            $to = time();
+
+            if (isset($data['from']) && isset($data['to'])){
+                $from = strtotime($data['from']."00:00");
+                $to = strtotime($data['to']."23:59");
+            }
+            $acc = Account::find(Auth::user()->id);
+            $acc->birthday = date('d/m/Y',$acc->birthday);
+            $history = Transaction::where(function ($query) use ($acc){
+                $query->where('sender_id', $acc->id)
+                      ->orWhere('receiver_id', $acc->id);
+            })->where('created_at','>=',$from)->where('created_at','<=',$to)->orderBy('created_at', 'desc')->get();
+
+            foreach($history as $item){
                 if ($item->type == 3 && $item->receiver_id == Auth::user()->id) {
                     $item->messages = $item->sender->fullname.' gửi vào: '.$item->messages;
                 }
@@ -27,6 +40,13 @@ class UserController extends Controller
                 }
                 
             }
+
+            $data = [
+                'acc' => $acc,
+                'history' => $history,
+                'from' => date('d/m/Y',$from),
+                'to' => date('d/m/Y',$to),
+            ];
             // dd($data['history']);
 	    	return view('client.user.index', $data);
     	}
@@ -38,6 +58,9 @@ class UserController extends Controller
     public function postChange(Request $request ){
         $acc = Account::find(Auth::user()->id);
         $data = $request->acc;
+
+
+        $data['birthday'] = strtotime($data['birthday']."00:00");
         if ($data['password'] == null) {
             unset($data['password']);
         }
@@ -113,7 +136,8 @@ class UserController extends Controller
     	if(!Transaction::insert($data)) $check = 0;
     	if ($check == 1) {
     		DB::commit();
-    		return back()->with('success','Giao dịch thành công');
+            $data['created_at'] = date('d/m/Y H:m', $data['created_at']);
+    		return back()->with($data);
     	}
     	else{
     		DB::rollBack();
@@ -160,7 +184,11 @@ class UserController extends Controller
     	if(!Transaction::insert($data)) $check = 0;
     	if ($check == 1) {
     		DB::commit();
-    		return back()->with('success','Giao dịch thành công');
+            $data['re_fullname'] = $request->transfer['fullname'];
+            $data['re_account_number'] = $request->transfer['account_number'];
+            $data['created_at'] = date('d/m/Y H:m', $data['created_at']);
+
+    		return back()->with($data);
     	}
     	else{
     		DB::rollBack();

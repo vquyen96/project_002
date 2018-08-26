@@ -43,7 +43,10 @@
 </div>
 <div class="main">
 	<div class="logo">
-		<img src="images/logo.png">
+		<a href="{{ asset('') }}">
+			<img src="images/logo.png">
+		</a>
+		
 	</div>
 	<h2>Trải nghiệm đột phá với Ngân hàng số </h2><h2> chỉ trong vòng 2 phút</h2>
 	<p>Đơn giản bằng cách điền thông tin bên dưới để Bộ phận Chăm sóc khách hàng của chúng tôi có thể liên hệ với bạn đặt lịch hẹn nhận thẻ và cafe miễn phí tại TP Coffe Hangout.</p>
