@@ -1,0 +1,168 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    font-family: Arial, Tahoma;
+    background: #FFF;
+}
+.box-content{
+    margin-bottom: 50px;
+}
+
+.full-login {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    padding-bottom: 30px;
+}
+
+.logo-login div {
+    background: #FFF;
+    display: block;
+    /* height: 80px; */
+    text-align: right;
+    margin: 0 auto;
+    width: 256px;
+}
+a {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    text-decoration: none;
+    color: #222;
+}
+.box-login {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.box-login .form-login {
+    width: 256px;
+    margin: 0 auto;
+    /* padding: 5%; */
+    background: #FFF;
+    border-radius: 10px;
+}
+.box-login .form-login .title-dv {
+    color: #58585b;
+    font-family: "kuro", Arial, Tahoma;
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 15px;
+    text-align: right;
+}
+form {
+	margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font-weight: normal;
+    vertical-align: baseline;
+    background: transparent;
+    color: #222;			
+}
+.box-login .form-login .control-login {
+    width: 100%;
+    padding: 7px 0 2px 0;
+    margin: 0 auto;
+}
+.box-login .form-login .control-login input {
+    width: 100%;
+    padding: 0 8px;
+    border: 1px solid #00502f;
+    height: 40px;
+}
+img {
+    vertical-align: top;
+    max-width: 100%;
+}
+.btn-dangnhap {
+    background: #f4851f;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+    font-family: Arial, Tahoma;
+    line-height: 35px;
+    width: 100%;
+    text-transform: uppercase;
+}
+.resetpass {
+    width: 100%;
+    text-align: center;
+}
+.menu-top {
+	    	background: #5c2d88;
+	    	margin: 0;
+	    	padding: 0;
+	    	width: 100%;
+	    	display: inline-block;
+	    	clear: both;
+	    	margin-bottom: -3px;
+}
+.nav-login {
+    width: 960px;
+    margin: 0 auto;
+    padding: 0;
+}
+.nav-login .nav-login-left {
+    /* width: 580px; */
+    float: right;
+    padding: 0 35px;
+}
+.nav-login .nav-login-left ul {
+    height: 34px;
+    list-style: none;
+    margin: 0;
+}
+.nav-login-left ul li {
+    border-left: 1px solid #4d8a71;
+    float: left;
+    list-style: none;
+}
+.nav-login-left ul li a {
+    float: left;
+    padding: 7px 20px;
+    line-height: 20px;
+}
+img {
+    vertical-align: top;
+    max-width: 100%;
+}
+.nav-login-left ul div {
+    color: #fff;
+    padding: 9px;
+    font-size: 14px;
+    font-family: Arial,Tahoma;
+}
+span {
+    color: red;
+}
+.login-link {
+    padding-top: 15px;
+    float: left;
+    border-top: 1px dotted #bbbbbb;
+    margin-top: 10px;
+    width: 100%;
+    display: block;
+}
+.login-link a {
+    color: #222;
+    font-family: Arial,Tahoma !important;
+    font-size: 13px !important;
+    background: url(https://www.vietcombank.com.vn/IBanking2015/Content/web/css/../images/v2/nav-left-icon.png) no-repeat left;
+    padding-left: 15px;
+    font-size: 13px;
+
+}
+
+
+/*style left*/
+/*.da-slider{
+    border-right: solid;
+    border-width: 1px;
+    border-color: #f4851f;
+}
+*/
