@@ -81,13 +81,13 @@
 			<div class="form_group">
 			    <label>Địa chỉ email</label>
 			    <div>
-			    	<input type="text" class="form-control" name="acc[email]" placeholder="(Vd: abc@mail.com)" required>
+			    	<input type="email" class="form-control" name="acc[email]" placeholder="(Vd: abc@mail.com)" required>
 			    </div>
 			</div>
 			<div class="form_group">
 			    <label>Số điện thoại di động</label>
 			    <div>
-			    	<input type="text" class="form-control" name="acc[phone]" placeholder="(Ví dụ: 0901234567)" required>
+			    	<input type="number" class="form-control" name="acc[phone]" placeholder="(Ví dụ: 0901234567)" required>
 			    </div>
 			</div>
 			<div class="form_group">
