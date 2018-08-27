@@ -73,13 +73,23 @@ class UserController extends Controller
         }
         // dd($request );
         if(!$acc->update($data)) return back()->with('error', 'Lỗi Sửa tài khoản');
-        return back()->with('success', 'Cập nhật thnahf công');
+        return back()->with('success', 'Cập nhật thành công');
     }
     public function postDeposit(Request $request ){
+        if($request->deposit['amount'] <= 0){
+            return back()->with('error',' Số tiền không đúng');
+        }
+
     	$req = $request->deposit;
     	DB::beginTransaction();
     	$check = 1;
     	$acc = Account::find(Auth::user()->id);
+        if($acc->balance < 0){
+            $check = 0;
+        }
+        if($acc->balance < $request->deposit['amount']){
+            $check = 0;
+        }
     	$balance_before = $acc->balance;
     	$data['balance'] = $acc->balance + $request->deposit['amount'];
 
@@ -111,9 +121,19 @@ class UserController extends Controller
 
 
     public function postWithDraw(Request $request ){
+        if($request->withdraw['amount'] <= 0){
+            return back()->with('error',' Số tiền không đúng');
+        }
     	DB::beginTransaction();
     	$check = 1;
     	$acc = Account::find(Auth::user()->id);
+        if($acc->balance < 0){
+            $check = 0;
+        }
+        if($acc->balance < $request->withdraw['amount']){
+            $check = 0;
+        }
+       
     	$balance_before = $acc->balance;
     	$data['balance'] = $acc->balance - $request->withdraw['amount'];
 
@@ -145,9 +165,19 @@ class UserController extends Controller
     	}
     }
     public function postTransfer(Request $request ){
+        if($request->transfer['amount'] <= 0){
+            return back()->with('error',' Số tiền không đúng');
+        }
+
     	DB::beginTransaction();
     	$check = 1;
     	$acc = Account::find(Auth::user()->id);
+        if($acc->balance < 0){
+            $check = 0;
+        }
+        if($acc->balance < $request->transfer['amount']){
+            $check = 0;
+        }
     	$balance_before = $acc->balance;
     	$data['balance'] = $acc->balance - $request->transfer['amount'];
         $receiver = Account::where('fullname', strtoupper($request->transfer['fullname']))->where('account_number', $request->transfer['account_number'])->first();
@@ -201,6 +231,16 @@ class UserController extends Controller
         $data['messages'] = Input::get('messages');
 
         $data['acc'] = Account::find($id);
+        if($data['acc']->balance < 0){
+            $data['error'] = 'Tài khoản của bạn bị lỗi';
+            $view = View::make('client.user.error', $data)->render();
+            return response($view, 201);
+        }
+        if($data['acc']->balance < $data['amount']){
+            $data['error'] = 'Tài khoản của bạn không đủ tiền';
+            $view = View::make('client.user.error', $data)->render();
+            return response($view, 201);
+        }
         if (!isset($data['acc'])) {
         	return response('error' , 501);
         }
@@ -213,6 +253,16 @@ class UserController extends Controller
         $data['messages'] = Input::get('messages');
 
         $data['acc'] = Account::find($id);
+        if($data['acc']->balance < 0){
+            $data['error'] = 'Tài khoản của bạn bị lỗi';
+            $view = View::make('client.user.error', $data)->render();
+            return response($view, 201);
+        }
+        if($data['acc']->balance < $data['amount']){
+            $data['error'] = 'Tài khoản của bạn không đủ tiền';
+            $view = View::make('client.user.error', $data)->render();
+            return response($view, 201);
+        }
         if (!isset($data['acc'])) {
         	return response('error' , 501);
         }
@@ -234,12 +284,28 @@ class UserController extends Controller
         }
         $receiver = $receiver->where('fullname', $data['receiver_fullname'])->first();
         if(!$receiver){
+            if($data['acc']->balance < 0){
+                $data['error'] = 'Tài khoản nhận tiền bị lỗi';
+                $view = View::make('client.user.error', $data)->render();
+                return response($view, 201);
+            }
         	$data['error'] = 'Tên tài khoản không đúng';
         	$view = View::make('client.user.error', $data)->render();
         	return response($view, 201);
         }
 
         $data['acc'] = Account::find($id);
+        if($data['acc']->balance < 0){
+            $data['error'] = 'Tài khoản của bạn bị lỗi';
+            $view = View::make('client.user.error', $data)->render();
+            return response($view, 201);
+        }
+        if($data['acc']->balance < $data['amount']){
+            $data['error'] = 'Tài khoản của bạn không đủ tiền';
+            $view = View::make('client.user.error', $data)->render();
+            return response($view, 201);
+        }
+        
         if (!isset($data['acc'])) {
         	return response('error' , 501);
         }

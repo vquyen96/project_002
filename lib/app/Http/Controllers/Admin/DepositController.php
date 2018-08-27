@@ -13,10 +13,16 @@ class DepositController extends Controller
     	return view('admin.deposit.index');
     }
     public function postDeposit(Request $request){
+        if($request->deposit['amount'] <= 0){
+            return back()->with('error',' Số tiền không đúng');
+        }
     	$req = $request->deposit;
     	DB::beginTransaction();
     	$check = 1;
     	$acc = Account::where('fullname', strtoupper($req['fullname']))->where('account_number', $req['account_number'])->first();
+        if ($acc->balance < 0) {
+            $check = 0 ;
+        }
     	$balance_before = $acc->balance;
     	$data['balance'] = $acc->balance + $request->deposit['amount'];
 
