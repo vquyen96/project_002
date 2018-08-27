@@ -63,9 +63,14 @@ class UserController extends Controller
         $data['birthday'] = strtotime($data['birthday']."00:00");
         if ($data['password'] == null) {
             unset($data['password']);
+            unset($data['re_password']);
+        }
+        else if ($data['password'] != $data['re_password']) {
+            return back()->with('error', 'Nhập lại mật khẩu không đúng');
         }
         else{
             $data['password'] = bcrypt($data['password']);
+            unset($data['re_password']);
         }
         $image = $request->file('img');
         if ($request->hasFile('img')) {

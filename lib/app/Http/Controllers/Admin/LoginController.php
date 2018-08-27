@@ -88,6 +88,7 @@ class LoginController extends Controller
         $password = $data['password'];
         $data['password'] = bcrypt($data['password']);
         $data['level'] = 3;
+        $data['gender'] = 3;
         isset($data['img']) ? $image = $data['img'] : '' ;
         if (isset($data['img'])) {
             $data['img'] = saveImage([$image], 200, 'avatar');

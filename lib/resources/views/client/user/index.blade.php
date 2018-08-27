@@ -17,6 +17,9 @@
 <body>
 <div id="id_user">{{ Auth::user()->id }}</div>
 <div id="currentUrl">{{ asset('') }}</div>
+<div id="loading">
+	<img src="images/iconload.gif">
+</div>
 <div class="carouselBG">
 	<div id="carouselHome" class="carousel slide" data-ride="carousel">
 	  <div class="carousel-inner">
@@ -124,7 +127,9 @@
 								
 							</div>
 							<div class="bodyItemRightInput">
-								<input type="text" name="acc[password]" class="form-control" value="">
+								<input type="password" name="acc[password]" class="form-control" value="" placeholder="Nhập mật khẩu mới">
+								<input type="password" name="acc[re_password]" class="form-control" value="" placeholder="Nhập lại mật khẩu">
+
 							</div>
 							<div class="bodyItemRightBtn">
 								<i class="fas fa-edit"></i>
